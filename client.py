@@ -78,6 +78,18 @@ for check in checkboxes:
     if check.is_selected():
         check.click()
 
+for check in checkboxes:
+    if check.is_selected():
+        check.click()
+
+for check in checkboxes:
+    if check.is_selected():
+        check.click()
+
+for check in checkboxes:
+    if check.is_selected():
+        check.click()
+
 country_box = Select(driver.find_element(By.XPATH, "//select[@id='country']"))
 country_box.select_by_visible_text("India")
 
