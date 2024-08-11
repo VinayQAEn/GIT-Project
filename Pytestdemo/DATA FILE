@@ -1,0 +1,240 @@
+# Any pytest file should start with test_ or ends with _test
+# pytest method name should always starts with _test
+# Any code should be wrapped under method
+# method name should have sense
+# -k stands for method name execution, -s for logs in output, -v stands for more information like metadata
+# u can run specific file with py.tset <Filename>
+# u can mark(tag) tests @pytest.mark.smoke and then run it with -m
+# u can skip test with @pytest.mark.skip
+#@pytest.mark.xfail
+#fixtures are used as setup and tear down methods for test cases - conftest file to generalize fixtures and make it
+# available to all test cases
+import pytest
+
+##############################################################################################################################
+# Running test cases from terminal
+# cd -- path of the package -- py.test-- -v -- -s
+
+
+
+# def test_firstprogram():
+#     print("Hello")
+#
+# def test_secondprogram():
+#     print("Good morning")
+
+# def test_thirdprogram():
+#     msg = "Hello"
+#     assert msg == "Hi" , "Test Failed because string not matched"
+#
+# def test_fourthprogram():
+#     a = 10
+#     b = 20
+#     assert a + 10 == 20," addition donot match"
+
+# py.test test_demo2.py -v -s
+##############################################################################################################################
+# Run test case which have creditcard name
+
+
+#
+# def test_secondprogramCredit_Card():
+#     print("Good morning")
+
+# def test_fourthprogramCredit_Card():
+#     a = 10
+#     b = 20
+#     assert a + 10 == 20," addition donot match"
+
+# Command: py.test -k Credit_Card -v -s
+##############################################################################################################################
+# if u want to run test cases which are marked as smoke
+# @pytest.mark.smoke
+# def test_initialtest():
+#     print("This is smoke related test case")
+
+# py.test -m smoke -v -s
+##############################################################################################################################
+
+# U can skip the test case using @pytest.mark.skip
+# @pytest.mark.smoke
+# @pytest.mark.skip
+# def test_initialtest():
+#     print("This is smoke related test case")
+
+##############################################################################################################################
+# now if there is requirement like where u dont want to skip the test because this test case doing some operation
+which are like pre-requisite for further test case
+
+# @pytest.mark.xfail
+# @pytest.mark.xfail
+def test_bug1(setup):
+    print("This is a bug which i don't want to show in my report")
+##############################################################################################################################
+# Fixtures:
+import pytest
+@pytest.fixture()
+def setup():
+    print("I will execute first")
+    yield
+    print("I will execute last")
+
+# IN FIXTURE DEMO METHOD:-
+
+@pytest.mark.usefixtures("setup")
+class TestExample1:
+
+    def test_fixturedemo(self):
+        print("I will execute 1step in fixture")
+    def test_fixturedemo1(self):
+        print("I will execute 2steps in fixture")
+    def test_fixturedemo2(self):
+        print("I will execute 3steps in fixture")
+    def test_fixturedemo3(self):
+        print("I will execute 4steps in fixture")
+    def test_fixturedemo4(self):
+        print("I will execute 5steps in fixture")
+
+Example:2:-
+@pytest.fixture()
+
+def dataLoad():
+    print("user profile has being created")
+    return ["Vinay","Bakoria","vinaybakoriaacademy.com"]
+
+Example:-3
+@pytest.fixture(params=["chrome","Firefox","Edge"])
+def crossbrowser(request):
+    return request.param
+##############################################################################################################################
+how to data drive from fixture
+
+1. Assume a profile page where to want to send first name and last name
+
+2. In conftest file:
+
+@pytest.fixture()
+
+def dataLoad():
+    print("user profile has being created")
+    return ["Vinay","Bakoria","vinaybakoriaacademy.com"]
+
+3. Create 1 new python test file:
+
+import pytest
+
+@pytest.mark.usefixtures("dataLoad")
+class TestExample2:
+    def test_editprofile(self,dataLoad):
+        print(dataLoad)
+        print(dataLoad[0])
+        print(dataLoad[1])
+        print(dataLoad[2])
+
+##############################################################################################################################
+when we run test on multiple browser
+1. In conftest file
+@pytest.fixture(params=["Chrome","FireFox","Edge"])
+def crossbrowser(request):
+    return request.param
+
+2. In python file:
+
+@pytest.mark.usefixtures
+def test_crossbrowser(crossbrowser):
+    print(crossbrowser)
+***********************************************class fixture is not supported in pycharm
+##############################################################################################################################
+
+* Generating HTML report for pytest test cases
+
+1. pip install html-reports
+2.--html=report.html
+
+
+Install pytest-html Plugin:
+Ensure that you have pytest-html installed in your virtual environment:
+
+
+pip install pytest-html
+Verify Installation:
+Check if pytest-html is correctly installed by listing the installed packages:
+
+
+pip list | grep pytest-html
+This should output something like pytest-html x.x.x indicating the version installed.
+
+Run Pytest with HTML Report Option:
+Make sure you are in your project directory and then run pytest with the --html option:
+
+
+pytest --html=report.html
+
+
+##############################################################################################################################
+
+* File handler in logging test:
+
+logger is to print.
+1.
+
+import logging
+logger = logging.getLogger(__name__)
+File = logging.FileHandler("logfile.log")
+logger.addHandler(File)
+logger.debug("A debug information is executed")
+logger.info("Information statement")
+logger.warning("Something is in warning mode")
+logger.error("A major error has happened")
+logger.critical("Critical issue")
+
+2.
+
+def test_loggingdemo():
+    logger = logging.getLogger(__name__)
+    File = logging.FileHandler("logfile.log")
+    Formatter = logging.Formatter("%(asctime)s : %(levelname)s : %(name)s : %(message)s")
+    File.setFormatter(Formatter)
+    logger.addHandler(File)
+    logger.setLevel(logging.INFO)
+
+    logger.debug("A debug information is executed")
+    logger.info("Information statement")
+    logger.warning("Something is in warning mode")
+    logger.error("A major error has happened")
+    logger.critical("Crictical issue")
+
+
+##############################################################################################################################
+# 1. BASE CLASS
+
+import inspect
+import logging
+class BaseClass:
+    def getlogger(self):
+        loggerName = inspect.stack()[1][3]
+        logger = logging.getLogger(loggerName)
+        File = logging.FileHandler("logfile.log")
+        Formatter = logging.Formatter("%(asctime)s : %(levelname)s : %(name)s : %(message)s")
+        File.setFormatter(Formatter)
+        logger.addHandler(File)
+        logger.setLevel(logging.DEBUG)
+        return logger
+
+
+2. In test_fixturedata.py :-
+
+
+import pytest
+
+from Pytestdemo.Baseclass import BaseClass
+
+
+@pytest.mark.usefixtures("dataLoad")
+class TestExample2(BaseClass):
+    def test_editprofile(self,dataLoad):
+        log = self.getlogger()
+        log.info(dataLoad)
+        log.info(dataLoad[0])
+        log.info(dataLoad[1])
+        print(dataLoad)
