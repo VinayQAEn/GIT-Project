@@ -283,6 +283,6 @@ print(Resiziable.location)
 act.drag_and_drop_by_offset(Resiziable,400,-200).perform()
 time.sleep(10)
 
-
+My name is vinay
 
 
