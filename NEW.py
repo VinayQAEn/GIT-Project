@@ -22,4 +22,3 @@ msg = driver.find_element(By.XPATH,"//strong[normalize-space()='Success!']").tex
 
 assert "Success" in msg
 time.sleep(10)
-print(driver.title)
