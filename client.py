@@ -281,7 +281,7 @@ driver.refresh()
 Resiziable = driver.find_element(By.XPATH,"//div[@class='ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se']")
 print(Resiziable.location)
 act.drag_and_drop_by_offset(Resiziable,400,-200).perform()
-time.sleep(10)
+time.sleep(50)
 
 
 
