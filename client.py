@@ -73,6 +73,10 @@ for i in range(len(checkboxes) - 2, len(checkboxes)):
 for i in range(len(checkboxes)):
     if i < 2:
         checkboxes[i].click()
+        
+for i in range(len(checkboxes)):
+    if i < 2:
+        checkboxes[i].click()
 
 
 country_box = Select(driver.find_element(By.XPATH, "//select[@id='country']"))
