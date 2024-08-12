@@ -284,9 +284,9 @@ act.drag_and_drop_by_offset(Resiziable,400,-200).perform()
 time.sleep(50)
 time.sleep(50)
 time.sleep(50)
-time.sleep(50)time.sleep(50)
 time.sleep(50)
-time.sleep(50)
+
+
 
 
 
